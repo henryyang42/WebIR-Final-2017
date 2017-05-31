@@ -9,9 +9,9 @@ import jieba
 import pandas as pd
 import jieba.posseg as pseg
 
-dic = pd.read_table('dict.txt',sep=' ',header=None)
+dic = pd.read_table('data/dict.txt',sep=' ',header=None)
 dic = list(dic[0]) 
-diary = pd.read_table('diary.txt',encoding = 'utf-8')
+diary = pd.read_table('data/diary.txt',encoding = 'utf-8')
 
 name = []
 for i in range(0,len(diary)):
@@ -37,12 +37,12 @@ for i in range(0,len(del_idx)):
     
 
 import csv
-savename = 'place.csv'
+savename = 'data/place.csv'
 predict1 = zip(list(map(str,name_set)))
 with open(savename,'w',newline='') as f:
     writer = csv.writer(f, delimiter =',')
     writer.writerows(predict1)
     
 
-p = pd.read_csv('place.csv',header=None,encoding = 'utf-8')
-n = pd.read_csv('names.csv',header=None,encoding = 'utf-8')
+p = pd.read_csv('data/place.csv',header=None,encoding = 'utf-8')
+n = pd.read_csv('data/names.csv',header=None,encoding = 'utf-8')
