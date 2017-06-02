@@ -45,7 +45,7 @@
       <tbody>
         <tr ng-repeat="d in filtered = (data | filter:hasTerm(search))">
           <td>{{d.time}}</td>
-          <td ng-bind-html="render(d.tokens) | highlight:search"></td>
+          <td ng-bind-html="d.html | highlight:search"></td>
         </tr>
       </tbody>
     </table>
@@ -59,6 +59,9 @@ app.controller('diaryController', function($scope) {
   $.get(url, function(json) {
     console.log('Diary loaded.');
     $scope.data = json;
+    for(i in $scope.data) {
+      $scope.data[i].html = $scope.render(scope.data[i].tokens);
+    }
     $scope.$apply();
   });
   $scope.hasTerm = function(terms) {
