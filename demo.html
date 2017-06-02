@@ -72,11 +72,14 @@ app.controller('diaryController', function($scope) {
     }
   }
   $scope.render = function(tokens) {
-    html = ''
+    html = '';
     for(token of tokens)
-      html += '<span class="{1}" tooltip="{2}">{0}<sub>{3}</sub></span> '.format(token.token, token.label, token.pos, token.label == 'O' ? '' : token.label);
+      html += '<span class="{1}" title="{2}">{0}<sub>{3}</sub></span> '.format(token.token, token.label, token.pos, token.label == 'O' ? '' : token.label);
     return html;
   }
+  $scope.$watch('filtered', function () {
+    $('span').tooltip();
+  }, true);
 });
 
 app.filter('highlight', function($sce) {
@@ -91,6 +94,7 @@ app.filter('highlight', function($sce) {
     return $sce.trustAsHtml(str.replace(regex, '<span class="match">$&</span>'));
   };
 });
+
 if (!String.prototype.format) {
   String.prototype.format = function() {
     var args = arguments;
