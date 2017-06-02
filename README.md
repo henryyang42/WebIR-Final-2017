@@ -3,9 +3,9 @@
 
 ## Simple Demo
 - Whole Diaries
-	- [楊基振日記](https://henryyang42.github.io/WebIR-Final-2017/%E6%A5%8A%E5%9F%BA%E6%8C%AF%E6%97%A5%E8%A8%98.html)
+	- [楊基振日記](https://henryyang42.github.io/WebIR-Final-2017/diaries.html)
 - Only Frames
-	- 	[楊基振日記 - Frame](https://henryyang42.github.io/WebIR-Final-2017/demo.html)
+	- 	[楊基振日記 - Frame](https://henryyang42.github.io/WebIR-Final-2017/frames.html)
 
 ## Introduction
 
