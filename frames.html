@@ -60,7 +60,7 @@ app.controller('diaryController', function($scope) {
     console.log('Diary loaded.');
     $scope.data = json;
     for(i in $scope.data) {
-      $scope.data[i].html = $scope.render(scope.data[i].tokens);
+      $scope.data[i].html = $scope.render($scope.data[i].tokens);
     }
     $scope.$apply();
   });
