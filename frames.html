@@ -58,7 +58,7 @@ app.controller('diaryController', function($scope) {
   $scope.search = '來訪';
   $.get(url, function(json) {
     console.log('Diary loaded.');
-    $scope.data = JSON.parse(json);
+    $scope.data = json;
     $scope.$apply();
   });
   $scope.hasTerm = function(terms) {
