@@ -10,6 +10,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <style type="text/css">
+.tooltip-toggle {
+  position: relative;
+  cursor: pointer;
+}
+
+.tooltip-toggle::before {
+  position: absolute;
+  top: -38px;
+  left: -80px;
+  background-color: #2B222A;
+  border-radius: 5px;
+  color: #fff;
+  content: attr(aria-label);
+  padding: 0.4rem;
+  text-transform: none;
+  width: 160px;
+}
+.tooltip-toggle::after {
+  position: absolute;
+  top: -10px;
+  left: 9px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #2B222A;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+  margin-left: -5px;
+  width: 0;
+}
+.tooltip-toggle::before, .tooltip-toggle::after {
+  color: #efefef;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+}
+.tooltip-toggle:focus::before, .tooltip-toggle:focus::after, .tooltip-toggle:hover::before, .tooltip-toggle:hover::after {
+  opacity: 1;
+}
+
 .match {
   background: yellow;
 }
@@ -57,13 +98,15 @@
 </body>
 <script type="text/javascript">
 var ckip = {'Nb': '專有名稱', 'Nv': '名物化動詞', 'VI': '狀態類及物動詞', 'D': '副詞', 'Dfa': '動詞前程度副詞', 'Dfb': '動詞後程度副詞', 'Di': '時態標記', 'Na': '普通名詞', 'Ng': '後置詞', 'EXCLAMATIONCATEGORY': '驚嘆號', 'VL': '狀態謂賓動詞', 'VC': '動作及物動詞', 'DASHCATEGORY': '破折號', 'Nd': '時間詞', 'ETCCATEGORY': '刪節號', 'Caa': '對等連接詞，如：和、跟', 'QUESTIONCATEGORY': '問號', 'Nh': '代名詞', 'I': '感嘆詞', 'Ncd': '位置詞', 'Cbb': '關聯連接詞', 'P': '介詞', 'Nc': '地方詞', 'FW': '外文標記', 'COLONCATEGORY': '冒號', 'Nf': '量詞', 'PARENTHESISCATEGORY': '括弧', 'VK': '狀態句賓動詞', 'Dk': '句副詞', 'VG': '分類動詞', 'Da': '數量副詞', 'Cab': '連接詞，如：等等', 'VH': '狀態不及物動詞', 'Nep': '指代定詞', 'VB': '動作類及物動詞', 'PAUSECATEGORY': '頓號', 'Neu': '數詞定詞', 'VE': '動作句賓動詞', 'Neqa': '數量定詞', 'VHC': '狀態使動動詞', 'VD': '雙賓動詞', 'VJ': '狀態及物動詞', 'COMMACATEGORY': '逗號', 'V_2': '有', 'SPCHANGECATEGORY': '雙直線', 'DE': '的,之,得,地', 'VA': '動作不及物動詞', 'Neqb': '後置數量定詞', 'VAC': '動作使動動詞', 'VCL': '動作接地方賓語動詞', 'PERIODCATEGORY': '句號', 'SHI': '是', 'A': '非謂形容詞', 'Cba': '連接詞，如：的話', 'VF': '動作謂賓動詞', 'T': '語助詞', 'Nes': '特指定詞', 'SEMICOLONCATEGORY': '分號'}
-var url = 'frames.json?nocache=' + Math.random();
+var DEBUG = 0;
+var test_url = 'https://gist.githubusercontent.com/henryyang42/33a583d334ead984f737a212733a2e19/raw/a005295726f713f9f8802bb0d74139dbe7a5578e/frame.json'
+var url = DEBUG ? test_url : ('frames.json?nocache=' + Math.random());
 var app = angular.module('diary', []);
 app.controller('diaryController', function($scope) {
   $scope.search = '來訪';
   $.get(url, function(json) {
     console.log('Diary loaded.');
-    $scope.data = json;
+    $scope.data = DEBUG ? JSON.parse(json) : json;
     for(i in $scope.data) {
       $scope.data[i].html = $scope.render($scope.data[i].tokens);
     }
@@ -82,12 +125,12 @@ app.controller('diaryController', function($scope) {
   $scope.render = function(tokens) {
     html = '';
     for(token of tokens)
-      html += '<span class="{0}" title="{1} {2}">{3}<sub>{4}</sub></span> '.format(token.label, token.pos, ckip[token.pos], token.token, token.label == 'O' ? '' : token.label);
+      html += '<span class="tooltip-toggle {0}" aria-label="{1} {2}">{3}<sub>{4}</sub></span> '.format(token.label, token.pos, ckip[token.pos], token.token, token.label == 'O' ? '' : token.label);
     return html;
   }
-  $scope.$watch('filtered', function () {
-    $('span').tooltip();
-  }, true);
+  // $scope.$watch('filtered', function () {
+  //   $('span').tooltip();
+  // }, true);
 });
 
 app.filter('highlight', function($sce) {
